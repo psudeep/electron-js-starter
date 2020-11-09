@@ -1,15 +1,799 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <title>Note Taking App!</title>
-    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
-</head>
-<body>
-    <h1>Hello World!</h1>
-    We are using node <script>document.write(process.versions.node)</script>,
-    Chrome <script>document.write(process.versions.chrome)</script>,
-    and Electron <script>document.write(process.versions.electron)</script>.
-    <script src="renderer.js"></script>
-</body>
+   <head>
+      <meta charset="UTF-8">
+      <title>Note Taking App!</title>
+      <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+   </head>
+   <body>
+      <!-- <h1>Hello World!</h1>
+      We are using node <script>document.write(process.versions.node)</script>,
+      Chrome <script>document.write(process.versions.chrome)</script>,
+      and Electron <script>document.write(process.versions.electron)</script>. -->
+      <div id="notion-app">
+         <div class="notion-app-inner notion-light-theme" style="color: rgb(55, 53, 47); fill: currentcolor; line-height: 1.5; font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, &quot;Apple Color Emoji&quot;, Arial, sans-serif, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;; -webkit-font-smoothing: auto;">
+            <div class="notion-cursor-listener" style="width: 100vw; height: 100%; position: relative; display: flex; flex: 1 1 0%; background: white; cursor: text;">
+               <div class="notion-sidebar-container" style="flex-grow: 0; flex-shrink: 0; pointer-events: none; position: relative; z-index: 99; background: rgb(247, 246, 243); transition: box-shadow 300ms ease-in 0s; width: 240px;">
+                  <div style="color: rgba(25, 23, 17, 0.6); font-weight: 500; height: 100%;">
+                     <div style="position: absolute; top: 0px; left: 0px; bottom: 0px; display: flex; flex-direction: column; width: 0px; overflow: visible; z-index: 9; pointer-events: none;">
+                        <div class="notion-sidebar" style="display: flex; flex-direction: column; height: 100%; position: relative; pointer-events: auto; max-height: 100%; width: 240px; opacity: 1;">
+                           <div style="display: none; position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; z-index: -1; background: white; box-shadow: rgba(15, 15, 15, 0.05) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 3px 6px, rgba(15, 15, 15, 0.2) 0px 9px 24px;"></div>
+                           <div style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; border-top-right-radius: 3px; border-bottom-right-radius: 3px; z-index: -1; display: none; transition: box-shadow 300ms ease-in 0s;"></div>
+                           <div style="display: block; flex-shrink: 0; flex-grow: 0;">
+                              <div class="notion-sidebar-switcher" role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: flex; align-items: center; min-width: 0px; height: 45px; width: 100%; margin-bottom: 0px;">
+                                 <div style="display: flex; align-items: center; min-height: 27px; font-size: 14px; padding: 2px 14px; width: 100%; overflow: hidden;">
+                                    <div style="flex-shrink: 0; flex-grow: 0; border-radius: 3px; color: rgba(55, 53, 47, 0.6); width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; margin-right: 8px;">
+                                       <div class="notion-record-icon notranslate" role="button" aria-disabled="true" tabindex="-1" style="user-select: none; transition: background 20ms ease-in 0s; display: flex; align-items: center; justify-content: center; height: 20px; width: 20px; border-radius: 3px; flex-shrink: 0; margin-top: 1px; color: rgb(55, 53, 47);">
+                                          <div style="border-radius: 3px; width: 18px; height: 18px; background: rgba(55, 53, 47, 0.4); color: rgba(255, 255, 255, 0.9); text-transform: uppercase; display: flex; align-items: center; justify-content: center;">
+                                             <div style="line-height: 1; font-size: 12.21px; height: 12.21px;">S</div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                    <div style="flex: 1 1 auto; white-space: nowrap; min-width: 0px; overflow: hidden; text-overflow: ellipsis;">
+                                       <div class="notranslate" style="display: flex; align-items: center; justify-content: start;">
+                                          <div style="display: flex; flex-direction: column; margin-right: 6px; margin-top: 0px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
+                                             <div style="color: rgb(55, 53, 47); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Sipu Essays</div>
+                                             <div style="color: rgba(55, 53, 47, 0.6); font-size: 11px; line-height: 12px; font-weight: 400; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;"></div>
+                                          </div>
+                                          <div style="flex-grow: 0; flex-shrink: 0; width: 12px; height: 12px; fill: rgba(55, 53, 47, 0.4);">
+                                             <svg viewBox="-1 -1 9 11" class="expand" style="width: 100%; height: 100%; display: block; fill: inherit; flex-shrink: 0; backface-visibility: hidden;">
+                                                <path id="path0_stroke" d="M 3.5 0L 3.98809 -0.569442L 3.5 -0.987808L 3.01191 -0.569442L 3.5 0ZM 3.5 9L 3.01191 9.56944L 3.5 9.98781L 3.98809 9.56944L 3.5 9ZM 0.488094 3.56944L 3.98809 0.569442L 3.01191 -0.569442L -0.488094 2.43056L 0.488094 3.56944ZM 3.01191 0.569442L 6.51191 3.56944L 7.48809 2.43056L 3.98809 -0.569442L 3.01191 0.569442ZM -0.488094 6.56944L 3.01191 9.56944L 3.98809 8.43056L 0.488094 5.43056L -0.488094 6.56944ZM 3.98809 9.56944L 7.48809 6.56944L 6.51191 5.43056L 3.01191 8.43056L 3.98809 9.56944Z"></path>
+                                             </svg>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div style="flex-grow: 0; flex-shrink: 0; padding-bottom: 8px; box-shadow: transparent 0px 0px 0px; transition: box-shadow 300ms ease 0s;">
+                              <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer;">
+                                 <div style="display: flex; align-items: center; min-height: 27px; font-size: 14px; padding: 2px 14px; width: 100%;">
+                                    <div style="flex-shrink: 0; flex-grow: 0; border-radius: 3px; color: rgba(55, 53, 47, 0.6); width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; margin-right: 8px;">
+                                       <svg viewBox="0 0 14 14" class="sidebarSearch" style="width: 14px; height: 100%; display: block; fill: rgba(55, 53, 47, 0.4); flex-shrink: 0; backface-visibility: hidden;">
+                                          <path d="M5.92239093,0.540000021 C2.94055203,0.540000021 0.5,2.98052217 0.5,5.96238099 C0.5,8.9442199 2.94055203,11.384762 5.92239093,11.384762 C7.02329179,11.384762 8.05258749,11.0564678 8.91032559,10.4866744 L12.1460745,13.6802311 C12.5695899,14.1037465 13.2589477,14.1037465 13.6823635,13.6802311 C14.1058788,13.2567158 14.1058788,12.5730353 13.6823635,12.1495199 L10.4410368,8.95033558 C11.0107904,8.09259747 11.3447619,7.06329182 11.3447619,5.96238099 C11.3447619,2.98052217 8.90420992,0.540000021 5.92239093,0.540000021 Z M5.92239093,2.70895241 C7.7320027,2.70895241 9.17580956,4.15272939 9.17580956,5.96238099 C9.17580956,7.77201268 7.7320027,9.21581954 5.92239093,9.21581954 C4.11275925,9.21581954 2.66895239,7.77201268 2.66895239,5.96238099 C2.66895239,4.15272939 4.11275925,2.70895241 5.92239093,2.70895241 Z"></path>
+                                       </svg>
+                                    </div>
+                                    <div style="flex: 1 1 auto; white-space: nowrap; min-width: 0px; overflow: hidden; text-overflow: ellipsis;">Quick Find</div>
+                                 </div>
+                              </div>
+                              <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer;">
+                                 <div style="display: flex; align-items: center; min-height: 27px; font-size: 14px; padding: 2px 14px; width: 100%; background: none;">
+                                    <div style="flex-shrink: 0; flex-grow: 0; border-radius: 3px; color: rgba(55, 53, 47, 0.6); width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; margin-right: 8px;">
+                                       <div style="color: inherit;">
+                                          <svg viewBox="0 0 14 14" class="typesCreatedAt" style="width: 14px; height: 100%; display: block; fill: rgba(55, 53, 47, 0.4); flex-shrink: 0; backface-visibility: hidden;">
+                                             <path d="M6.98643729,14.0000972 C5.19579566,14.0000972 3.40419152,13.3106896 2.04245843,11.9323606 C-0.681017475,9.21200555 -0.680780251,4.76029539 2.04293482,2.04012507 C4.76664406,-0.68004331 9.22427509,-0.68004331 11.9480135,2.04013479 C13.272481,3.36277455 14,5.1330091 14,6.99552762 C14,8.87640182 13.2721894,10.6285043 11.9480135,11.9509302 C10.5679344,13.3105924 8.77756503,14.0000972 6.98643729,14.0000972 Z M10.2705296,7.00913883 L10.2705296,8.46099754 L10.2705296,8.65543362 L10.076181,8.65543362 L8.6543739,8.65543362 L5.72059514,8.65543362 L5.52619796,8.65543362 L5.52619796,8.46099754 L5.52619796,5.52541044 L5.52619796,3.37946773 L5.52619796,3.18502193 L5.72059514,3.18502193 L7.17253164,3.18502193 L7.36692883,3.18502193 L7.36692883,3.37946773 L7.36692883,6.81467358 L10.076181,6.81467358 L10.2705296,6.81467358 L10.2705296,7.00913883 Z M12.1601539,6.99552762 C12.1601539,5.61697497 11.6190112,4.32597154 10.6393933,3.34769528 C8.63253764,1.34336744 5.35197452,1.34061603 3.34153136,3.33944106 C3.33868273,3.34219247 3.33607716,3.34494388 3.33322852,3.34769528 C1.32397148,5.35459953 1.32372842,8.63641682 3.33322852,10.6433794 C5.34295224,12.6504489 8.62968901,12.6504489 10.6393933,10.6433794 C11.6190112,9.66506426 12.1601539,8.37408027 12.1601539,6.99552762 Z"></path>
+                                          </svg>
+                                       </div>
+                                    </div>
+                                    <div style="flex: 1 1 auto; white-space: nowrap; min-width: 0px; overflow: hidden; text-overflow: clip;">All Updates</div>
+                                    <div style="display: flex; align-items: center; justify-content: center; flex-shrink: 0; flex-grow: 0; height: 100%;"></div>
+                                 </div>
+                              </div>
+                              <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer;">
+                                 <div style="display: flex; align-items: center; min-height: 27px; font-size: 14px; padding: 2px 14px; width: 100%;">
+                                    <div style="flex-shrink: 0; flex-grow: 0; border-radius: 3px; color: rgba(55, 53, 47, 0.6); width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; margin-right: 8px;">
+                                       <svg viewBox="0 0 14 14" class="sidebarSettings" style="width: 14px; height: 100%; display: block; fill: rgba(55, 53, 47, 0.4); flex-shrink: 0; backface-visibility: hidden;">
+                                          <path d="M14,7.77 L14,6.17 L12.06,5.53 L11.61,4.44 L12.49,2.6 L11.36,1.47 L9.55,2.38 L8.46,1.93 L7.77,0.01 L6.17,0.01 L5.54,1.95 L4.43,2.4 L2.59,1.52 L1.46,2.65 L2.37,4.46 L1.92,5.55 L0,6.23 L0,7.82 L1.94,8.46 L2.39,9.55 L1.51,11.39 L2.64,12.52 L4.45,11.61 L5.54,12.06 L6.23,13.98 L7.82,13.98 L8.45,12.04 L9.56,11.59 L11.4,12.47 L12.53,11.34 L11.61,9.53 L12.08,8.44 L14,7.75 L14,7.77 Z M7,10 C5.34,10 4,8.66 4,7 C4,5.34 5.34,4 7,4 C8.66,4 10,5.34 10,7 C10,8.66 8.66,10 7,10 Z"></path>
+                                       </svg>
+                                    </div>
+                                    <div style="flex: 1 1 auto; white-space: nowrap; min-width: 0px; overflow: hidden; text-overflow: ellipsis;">
+                                       <div>Settings &amp; Members</div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="notion-scroller vertical" style="padding-top: 14px; padding-bottom: 20px; overflow: hidden auto; margin-right: 0px; margin-bottom: 0px;">
+                              <div class="notion-outliner-private" style="display: block;">
+                                 <div style="">
+                                    <div data-block-id="2bc403ae-71f9-42ab-bca0-11c149ffc5de" class="notion-selectable notion-page-block">
+                                       <a href="/sipu/Get-Started-2bc403ae71f942abbca011c149ffc5de" rel="noopener noreferrer" style="display: block; color: inherit; text-decoration: none; width: 100%;">
+                                          <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; width: 100%;">
+                                             <div style="display: flex; align-items: center; min-height: 27px; font-size: 14px; padding: 2px 14px; width: 100%;">
+                                                <div style="flex-shrink: 0; flex-grow: 0; border-radius: 3px; color: rgba(55, 53, 47, 0.6); width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; margin-right: 0px;">
+                                                   <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 3px;">
+                                                      <svg viewBox="0 0 100 100" class="triangle" style="width: 0.6875em; height: 0.6875em; display: block; fill: rgba(55, 53, 47, 0.4); flex-shrink: 0; backface-visibility: hidden; transition: transform 200ms ease-out 0s; transform: rotateZ(90deg); opacity: 1;">
+                                                         <polygon points="5.9,88.2 50,11.8 94.1,88.2 "></polygon>
+                                                      </svg>
+                                                   </div>
+                                                </div>
+                                                <div style="display: flex; align-items: center; justify-content: center; flex-shrink: 0; flex-grow: 0; width: 22px; height: 18px; margin-right: 4px;">
+                                                   <div class="notion-record-icon notranslate" role="button" aria-disabled="false" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: flex; align-items: center; justify-content: center; height: 20px; width: 20px; border-radius: 3px; flex-shrink: 0;">
+                                                      <svg viewBox="0 0 30 30" class="page" style="width: 18px; height: 18px; display: block; fill: rgba(55, 53, 47, 0.4); flex-shrink: 0; backface-visibility: hidden;">
+                                                         <g>
+                                                            <path d="M16,1H4v28h22V11L16,1z M16,3.828L23.172,11H16V3.828z M24,27H6V3h8v10h10V27z M8,17h14v-2H8V17z M8,21h14v-2H8V21z M8,25h14v-2H8V25z"></path>
+                                                         </g>
+                                                      </svg>
+                                                   </div>
+                                                </div>
+                                                <div style="flex: 1 1 auto; white-space: nowrap; min-width: 0px; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center;">
+                                                   <div class="notranslate" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Get Started</div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </a>
+                                    </div>
+                                    <div data-block-id="19343c72-11c5-4802-9887-c867898c42dc" class="notion-selectable notion-page-block">
+                                       <a href="/sipu/Get-Started-from-Evernote-19343c7211c548029887c867898c42dc" rel="noopener noreferrer" style="display: block; color: inherit; text-decoration: none; width: 100%;">
+                                          <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; width: 100%;">
+                                             <div style="display: flex; align-items: center; min-height: 27px; font-size: 14px; padding: 2px 14px; width: 100%;">
+                                                <div style="flex-shrink: 0; flex-grow: 0; border-radius: 3px; color: rgba(55, 53, 47, 0.6); width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; margin-right: 0px;">
+                                                   <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 3px;">
+                                                      <svg viewBox="0 0 100 100" class="triangle" style="width: 0.6875em; height: 0.6875em; display: block; fill: rgba(55, 53, 47, 0.4); flex-shrink: 0; backface-visibility: hidden; transition: transform 200ms ease-out 0s; transform: rotateZ(90deg); opacity: 1;">
+                                                         <polygon points="5.9,88.2 50,11.8 94.1,88.2 "></polygon>
+                                                      </svg>
+                                                   </div>
+                                                </div>
+                                                <div style="display: flex; align-items: center; justify-content: center; flex-shrink: 0; flex-grow: 0; width: 22px; height: 18px; margin-right: 4px;">
+                                                   <div class="notion-record-icon notranslate" role="button" aria-disabled="false" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: flex; align-items: center; justify-content: center; height: 20px; width: 20px; border-radius: 3px; flex-shrink: 0;">
+                                                      <div style="display: flex; align-items: center; justify-content: center; height: 20px; width: 20px;">
+                                                         <div style="height: 14px; width: 14px; font-size: 14px; line-height: 1.1; margin-left: 0px; color: black;"><span role="image" aria-label="🐘" style="font-family: &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, NotoColorEmoji, &quot;Noto Color Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Android Emoji&quot;, EmojiSymbols; line-height: 1em;">🐘</span></div>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                                <div style="flex: 1 1 auto; white-space: nowrap; min-width: 0px; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center;">
+                                                   <div class="notranslate" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Get Started from Evernote</div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </a>
+                                    </div>
+                                    <div data-block-id="bbad03e5-e060-4a08-bf45-38a16df520da" class="notion-selectable notion-collection_view_page-block">
+                                       <a href="/sipu/bbad03e5e0604a08bf4538a16df520da?v=3992f6901fba498d91315f72789131c3" rel="noopener noreferrer" style="display: block; color: inherit; text-decoration: none; width: 100%;">
+                                          <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; width: 100%;">
+                                             <div style="display: flex; align-items: center; min-height: 27px; font-size: 14px; padding: 2px 14px; width: 100%; background: rgba(55, 53, 47, 0.08); color: rgb(55, 53, 47); font-weight: 600;">
+                                                <div style="flex-shrink: 0; flex-grow: 0; border-radius: 3px; color: rgba(55, 53, 47, 0.6); width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; margin-right: 0px;">
+                                                   <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 3px;">
+                                                      <svg viewBox="0 0 100 100" class="triangle" style="width: 0.6875em; height: 0.6875em; display: block; fill: rgba(55, 53, 47, 0.4); flex-shrink: 0; backface-visibility: hidden; transition: transform 200ms ease-out 0s; transform: rotateZ(180deg); opacity: 1;">
+                                                         <polygon points="5.9,88.2 50,11.8 94.1,88.2 "></polygon>
+                                                      </svg>
+                                                   </div>
+                                                </div>
+                                                <div style="display: flex; align-items: center; justify-content: center; flex-shrink: 0; flex-grow: 0; width: 22px; height: 18px; margin-right: 4px;">
+                                                   <div class="notion-record-icon notranslate" role="button" aria-disabled="false" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: flex; align-items: center; justify-content: center; height: 20px; width: 20px; border-radius: 3px; flex-shrink: 0;">
+                                                      <div style="display: flex; align-items: center; justify-content: center; height: 20px; width: 20px;">
+                                                         <div style="height: 14px; width: 14px; font-size: 14px; line-height: 1.1; margin-left: 0px; color: black;"><span role="image" aria-label="🙆🏻‍♂️" style="font-family: &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, NotoColorEmoji, &quot;Noto Color Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Android Emoji&quot;, EmojiSymbols; line-height: 1em;">🙆🏻‍♂️</span></div>
+                                                      </div>
+                                                   </div>
+                                                </div>
+                                                <div style="flex: 1 1 auto; white-space: nowrap; min-width: 0px; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center;">
+                                                   <div class="notranslate" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">Blogs - Prashant Sudeep</div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </a>
+                                       <div>
+                                          <a href="/sipu/bbad03e5e0604a08bf4538a16df520da?v=3992f6901fba498d91315f72789131c3" rel="noopener noreferrer" style="display: block; color: inherit; text-decoration: none; width: 100%;">
+                                             <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; width: 100%;">
+                                                <div style="display: flex; align-items: center; min-height: 27px; font-size: 14px; padding: 2px 14px 2px 28px; width: 100%; background: rgba(55, 53, 47, 0.08); color: rgb(55, 53, 47); font-weight: 600;">
+                                                   <div style="display: flex; align-items: center; justify-content: center; flex-shrink: 0; flex-grow: 0; width: 22px; height: 18px; margin-right: 4px;">
+                                                      <div style="font-size: 12px; font-weight: 500; color: rgba(55, 53, 47, 0.6);">•</div>
+                                                   </div>
+                                                   <div style="flex: 1 1 auto; white-space: nowrap; min-width: 0px; overflow: hidden; text-overflow: ellipsis;">List View</div>
+                                                </div>
+                                             </div>
+                                          </a>
+                                          <a href="/sipu/bbad03e5e0604a08bf4538a16df520da?v=3cf01ea73c1b484ebcf423fe803e8fcb" rel="noopener noreferrer" style="display: block; color: inherit; text-decoration: none; width: 100%;">
+                                             <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; width: 100%;">
+                                                <div style="display: flex; align-items: center; min-height: 27px; font-size: 14px; padding: 2px 14px 2px 28px; width: 100%;">
+                                                   <div style="display: flex; align-items: center; justify-content: center; flex-shrink: 0; flex-grow: 0; width: 22px; height: 18px; margin-right: 4px;">
+                                                      <div style="font-size: 12px; font-weight: 500; color: rgba(55, 53, 47, 0.6);">•</div>
+                                                   </div>
+                                                   <div style="flex: 1 1 auto; white-space: nowrap; min-width: 0px; overflow: hidden; text-overflow: ellipsis;">Gallery View</div>
+                                                </div>
+                                             </div>
+                                          </a>
+                                       </div>
+                                    </div>
+                                    <div data-block-id="679980aa-6bab-437e-8f15-41a944dc016c" class="notion-selectable notion-page-block">
+                                       <a href="/sipu/People-are-Jealous-679980aa6bab437e8f1541a944dc016c" rel="noopener noreferrer" style="display: block; color: inherit; text-decoration: none; width: 100%;">
+                                          <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; width: 100%;">
+                                             <div style="display: flex; align-items: center; min-height: 27px; font-size: 14px; padding: 2px 14px; width: 100%;">
+                                                <div style="flex-shrink: 0; flex-grow: 0; border-radius: 3px; color: rgba(55, 53, 47, 0.6); width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; margin-right: 0px;">
+                                                   <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 3px;">
+                                                      <svg viewBox="0 0 100 100" class="triangle" style="width: 0.6875em; height: 0.6875em; display: block; fill: rgba(55, 53, 47, 0.4); flex-shrink: 0; backface-visibility: hidden; transition: transform 200ms ease-out 0s; transform: rotateZ(90deg); opacity: 1;">
+                                                         <polygon points="5.9,88.2 50,11.8 94.1,88.2 "></polygon>
+                                                      </svg>
+                                                   </div>
+                                                </div>
+                                                <div style="display: flex; align-items: center; justify-content: center; flex-shrink: 0; flex-grow: 0; width: 22px; height: 18px; margin-right: 4px;">
+                                                   <div class="notion-record-icon notranslate" role="button" aria-disabled="false" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: flex; align-items: center; justify-content: center; height: 20px; width: 20px; border-radius: 3px; flex-shrink: 0;">
+                                                      <svg viewBox="0 0 30 30" class="page" style="width: 18px; height: 18px; display: block; fill: rgba(55, 53, 47, 0.4); flex-shrink: 0; backface-visibility: hidden;">
+                                                         <g>
+                                                            <path d="M16,1H4v28h22V11L16,1z M16,3.828L23.172,11H16V3.828z M24,27H6V3h8v10h10V27z M8,17h14v-2H8V17z M8,21h14v-2H8V21z M8,25h14v-2H8V25z"></path>
+                                                         </g>
+                                                      </svg>
+                                                   </div>
+                                                </div>
+                                                <div style="flex: 1 1 auto; white-space: nowrap; min-width: 0px; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center;">
+                                                   <div class="notranslate" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">People are Jealous</div>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </a>
+                                    </div>
+                                    <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer;">
+                                       <div style="display: flex; align-items: center; min-height: 27px; font-size: 14px; padding: 2px 14px; width: 100%; color: rgba(55, 53, 47, 0.6);">
+                                          <div style="flex-shrink: 0; flex-grow: 0; border-radius: 3px; color: rgba(55, 53, 47, 0.6); width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; margin-right: 8px;">
+                                             <div style="display: flex; align-items: center; justify-content: center;">
+                                                <svg viewBox="0 0 16 16" class="plus" style="width: 16px; height: 16px; display: block; fill: rgba(55, 53, 47, 0.4); flex-shrink: 0; backface-visibility: hidden;">
+                                                   <path d="M7.977 14.963c.407 0 .747-.324.747-.723V8.72h5.362c.399 0 .74-.34.74-.747a.746.746 0 00-.74-.738H8.724V1.706c0-.398-.34-.722-.747-.722a.732.732 0 00-.739.722v5.529h-5.37a.746.746 0 00-.74.738c0 .407.341.747.74.747h5.37v5.52c0 .399.332.723.739.723z"></path>
+                                                </svg>
+                                             </div>
+                                          </div>
+                                          <div style="flex: 1 1 auto; white-space: nowrap; min-width: 0px; overflow: hidden; text-overflow: ellipsis;">Add a page</div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div style="margin-top: 20px;"></div>
+                              <div style="flex-grow: 0; flex-shrink: 0;">
+                                 <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer;">
+                                    <div style="display: flex; align-items: center; min-height: 27px; font-size: 14px; padding: 2px 14px; width: 100%;">
+                                       <div style="flex-shrink: 0; flex-grow: 0; border-radius: 3px; color: rgba(55, 53, 47, 0.6); width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; margin-right: 8px;">
+                                          <svg viewBox="0 0 14 14" class="sidebarTemplates" style="width: 100%; height: 15px; display: block; fill: rgba(55, 53, 47, 0.4); flex-shrink: 0; backface-visibility: hidden;">
+                                             <path fill-rule="evenodd" clip-rule="evenodd" d="M7.237 1l7.84 1.237-1.201 7.61L11.5 6.15 9.424 9.38 6 8.84 7.237 1zM5.545 5.31a4 4 0 1 0 2.29 4.832l-2.979-.47.689-4.363zM7 15l4.5-7 4.5 7H7z"></path>
+                                          </svg>
+                                       </div>
+                                       <div style="flex: 1 1 auto; white-space: nowrap; min-width: 0px; overflow: hidden; text-overflow: ellipsis;">Templates</div>
+                                    </div>
+                                 </div>
+                                 <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer;">
+                                    <div style="display: flex; align-items: center; min-height: 27px; font-size: 14px; padding: 2px 14px; width: 100%;">
+                                       <div style="flex-shrink: 0; flex-grow: 0; border-radius: 3px; color: rgba(55, 53, 47, 0.6); width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; margin-right: 8px;">
+                                          <svg viewBox="0 0 14 14" class="sidebarImport" style="width: 100%; height: 15px; display: block; fill: rgba(55, 53, 47, 0.4); flex-shrink: 0; backface-visibility: hidden;">
+                                             <path d="M11.2857,6.05714 L10.08571,4.85714 L7.85714,7.14786 L7.85714,1 L6.14286,1 L6.14286,7.14786 L3.91429,4.85714 L2.71429,6.05714 L7,10.42857 L11.2857,6.05714 Z M1,11.2857 L1,13 L13,13 L13,11.2857 L1,11.2857 Z"></path>
+                                          </svg>
+                                       </div>
+                                       <div style="flex: 1 1 auto; white-space: nowrap; min-width: 0px; overflow: hidden; text-overflow: ellipsis;">Import</div>
+                                    </div>
+                                 </div>
+                                 <div data-block-id="bbad03e5-e060-4a08-bf45-38a16df520da" class="notion-selectable notion-collection_view_page-block">
+                                    <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer;">
+                                       <div style="display: flex; align-items: center; min-height: 27px; font-size: 14px; padding: 2px 14px; width: 100%;">
+                                          <div style="flex-shrink: 0; flex-grow: 0; border-radius: 3px; color: rgba(55, 53, 47, 0.6); width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; margin-right: 8px;">
+                                             <svg viewBox="0 0 14 14" class="sidebarTrash" style="width: 14px; height: 100%; display: block; fill: rgba(55, 53, 47, 0.4); flex-shrink: 0; backface-visibility: hidden;">
+                                                <path d="M13.5000308,3.23952 C13.5000308,4.55848168 11.9230308,12.0493 11.9230308,12.0782 C11.9230308,12.6571 9.73825083,14 7.04165083,14 C4.34504083,14 2.16025083,12.6571 2.16025083,12.0782 C2.16025083,12.0541 0.5,4.55799105 0.5,3.23952 C0.5,1.91780104 3.02713083,0 7.03525083,0 C11.0433308,0 13.5000308,1.9178004 13.5000308,3.23952 Z M7,2 C3.625,2 2.5,3.25 2.5,4 C2.5,4.75 3.625,6 7,6 C10.375,6 11.5,4.75 11.5,4 C11.5,3.25 10.375,2 7,2 Z"></path>
+                                             </svg>
+                                          </div>
+                                          <div style="flex: 1 1 auto; white-space: nowrap; min-width: 0px; overflow: hidden; text-overflow: ellipsis;">Trash</div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div></div>
+                           <div style="display: block; flex: 0 0 auto; margin-top: auto;">
+                              <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; box-shadow: rgba(55, 53, 47, 0.09) 0px -1px 0px;">
+                                 <div style="display: flex; align-items: center; min-height: 27px; font-size: 14px; padding: 2px 14px; width: 100%; color: rgba(55, 53, 47, 0.6); height: 45px;">
+                                    <div style="flex-shrink: 0; flex-grow: 0; border-radius: 3px; color: rgba(55, 53, 47, 0.6); width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; margin-right: 8px;">
+                                       <div style="display: flex; align-items: center; justify-content: center;">
+                                          <svg viewBox="0 0 16 16" class="plus" style="width: 16px; height: 16px; display: block; fill: rgba(55, 53, 47, 0.4); flex-shrink: 0; backface-visibility: hidden;">
+                                             <path d="M7.977 14.963c.407 0 .747-.324.747-.723V8.72h5.362c.399 0 .74-.34.74-.747a.746.746 0 00-.74-.738H8.724V1.706c0-.398-.34-.722-.747-.722a.732.732 0 00-.739.722v5.529h-5.37a.746.746 0 00-.74.738c0 .407.341.747.74.747h5.37v5.52c0 .399.332.723.739.723z"></path>
+                                          </svg>
+                                       </div>
+                                    </div>
+                                    <div style="flex: 1 1 auto; white-space: nowrap; min-width: 0px; overflow: hidden; text-overflow: ellipsis;">New page</div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div style="position: absolute; right: 0px; width: 0px; flex-grow: 0; z-index: 1; top: 0px; bottom: 0px;">
+                              <div style="cursor: col-resize; height: 100%; width: 12px; margin-left: -6px;"></div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="notion-frame" style="flex-grow: 1; flex-shrink: 1; display: flex; flex-direction: column; background: white; z-index: 1; height: 100vh; max-height: 100%; width: 1200px;">
+                  <div style="width: 100%; max-width: 100vw; z-index: 9;">
+                     <div class="notion-topbar" style="width: 100%; max-width: 100vw; height: 45px; opacity: 1; transition: opacity 700ms ease 0s, color 700ms ease 0s; position: relative;">
+                        <div style="display: flex; justify-content: space-between; align-items: center; position: absolute; overflow: hidden; height: 45px; left: 0px; right: 0px; bottom: 0px; padding-left: 12px; padding-right: 10px;">
+                           <div class="notranslate" style="display: flex; align-items: center; line-height: 1.2; font-size: 14px; height: 100%; flex-grow: 0; margin-right: 8px; min-width: 0px;">
+                              <div role="button" aria-disabled="false" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: inline-flex; align-items: center; flex-shrink: 1; white-space: nowrap; height: 24px; border-radius: 3px; font-size: 14px; line-height: 1.2; min-width: 0px; padding-left: 6px; padding-right: 6px; color: rgb(55, 53, 47);">
+                                 <div class="notion-record-icon notranslate" role="button" aria-disabled="true" tabindex="-1" style="user-select: none; transition: background 20ms ease-in 0s; display: flex; align-items: center; justify-content: center; height: 20px; width: 20px; border-radius: 3px; flex-shrink: 0; margin-right: 6px;">
+                                    <div style="display: flex; align-items: center; justify-content: center; height: 20px; width: 20px;">
+                                       <div style="height: 14px; width: 14px; font-size: 14px; line-height: 1.1; margin-left: 0px; color: black;"><span role="image" aria-label="🙆🏻‍♂️" style="font-family: &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, NotoColorEmoji, &quot;Noto Color Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Android Emoji&quot;, EmojiSymbols; line-height: 1em;">🙆🏻‍♂️</span></div>
+                                    </div>
+                                 </div>
+                                 <div class="notranslate" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 240px;">Blogs - Prashant Sudeep</div>
+                              </div>
+                           </div>
+                           <div style="flex-grow: 1; flex-shrink: 1;"></div>
+                           <div style="flex-grow: 0; flex-shrink: 0; display: flex; align-items: stretch;">
+                              <div class="notion-topbar-share-menu" role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: inline-flex; align-items: center; flex-shrink: 0; white-space: nowrap; height: 28px; border-radius: 3px; font-size: 14px; line-height: 1.2; min-width: 0px; padding-left: 8px; padding-right: 8px; color: rgb(55, 53, 47);">Share</div>
+                              <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: inline-flex; align-items: center; flex-shrink: 0; white-space: nowrap; height: 28px; border-radius: 3px; font-size: 14px; line-height: 1.2; min-width: 0px; padding-left: 8px; padding-right: 8px; color: rgb(55, 53, 47);"><span>Updates</span></div>
+                              <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: inline-flex; align-items: center; flex-shrink: 0; white-space: nowrap; height: 28px; border-radius: 3px; font-size: 14px; line-height: 1.2; min-width: 0px; padding-left: 8px; padding-right: 8px; color: rgb(55, 53, 47);"><span>Favorite</span></div>
+                              <div class="notion-topbar-more-button" role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 32px; height: 28px; border-radius: 3px;">
+                                 <svg viewBox="0 0 13 3" class="dots" style="width: 18px; height: 18px; display: block; fill: inherit; flex-shrink: 0; backface-visibility: hidden;">
+                                    <g>
+                                       <path d="M3,1.5A1.5,1.5,0,1,1,1.5,0,1.5,1.5,0,0,1,3,1.5Z"></path>
+                                       <path d="M8,1.5A1.5,1.5,0,1,1,6.5,0,1.5,1.5,0,0,1,8,1.5Z"></path>
+                                       <path d="M13,1.5A1.5,1.5,0,1,1,11.5,0,1.5,1.5,0,0,1,13,1.5Z"></path>
+                                    </g>
+                                 </svg>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div></div>
+                     <div style="width: 100%; user-select: none;"></div>
+                  </div>
+                  <div class="notion-scroller vertical horizontal" style="display: flex; flex-direction: column; z-index: 1; flex-grow: 1; position: relative; overflow: auto; margin-right: 0px; margin-bottom: 0px;">
+                     <div style="width: 100%; display: flex; flex-direction: column; align-items: center; flex-shrink: 0; flex-grow: 0; position: sticky; left: 0px;">
+                        <div style="padding-left: calc(96px + env(safe-area-inset-left)); padding-right: calc(96px + env(safe-area-inset-right)); max-width: 100%; margin-bottom: 8px; width: 100%;">
+                           <div class="notion-page-controls" style="display: flex; justify-content: flex-start; flex-wrap: wrap; margin-top: 4px; margin-bottom: 4px; margin-left: -1px; color: rgba(55, 53, 47, 0.4); font-family: -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, &quot;Apple Color Emoji&quot;, Arial, sans-serif, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;; height: 24px;">
+                              <div role="button" tabindex="0" style="user-select: none; transition: opacity 100ms ease 0s; cursor: pointer; opacity: 0; display: inline-flex; align-items: center; flex-shrink: 0; white-space: nowrap; height: 28px; border-radius: 3px; font-size: 14px; line-height: 1.2; min-width: 0px; padding-left: 6px; padding-right: 8px; color: rgba(55, 53, 47, 0.4); pointer-events: none; margin-bottom: -16px;">
+                                 <svg viewBox="0 0 14 14" class="addPageCover" style="width: 14px; height: 14px; display: block; fill: rgba(55, 53, 47, 0.3); flex-shrink: 0; backface-visibility: hidden; margin-right: 6px;">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M2 0a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm0 12h10L8.5 5.5l-2 4-2-1.5L2 12z"></path>
+                                 </svg>
+                                 Add cover
+                              </div>
+                              <div role="button" tabindex="0" style="user-select: none; transition: opacity 100ms ease 0s; cursor: pointer; opacity: 0; display: inline-flex; align-items: center; flex-shrink: 0; white-space: nowrap; height: 28px; border-radius: 3px; font-size: 14px; line-height: 1.2; min-width: 0px; padding-left: 6px; padding-right: 8px; color: rgba(55, 53, 47, 0.4); pointer-events: none; margin-bottom: -16px;">
+                                 <svg viewBox="0 0 14 14" class="collectionDescriptionSmall" style="width: 14px; height: 14px; display: block; fill: rgba(55, 53, 47, 0.3); flex-shrink: 0; backface-visibility: hidden; margin-right: 6px;">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M7 4.667C6.69049 4.667 6.39366 4.54405 6.17481 4.32519C5.95595 4.10634 5.833 3.80951 5.833 3.5C5.833 3.19049 5.95595 2.89366 6.17481 2.67481C6.39366 2.45595 6.69049 2.333 7 2.333C7.30951 2.333 7.60634 2.45595 7.82519 2.67481C8.04405 2.89366 8.167 3.19049 8.167 3.5C8.167 3.80951 8.04405 4.10634 7.82519 4.32519C7.60634 4.54405 7.30951 4.667 7 4.667V4.667ZM8 11C8 11.2652 7.89464 11.5196 7.70711 11.7071C7.51957 11.8946 7.26522 12 7 12C6.73478 12 6.48043 11.8946 6.29289 11.7071C6.10536 11.5196 6 11.2652 6 11V7C6 6.73478 6.10536 6.48043 6.29289 6.29289C6.48043 6.10536 6.73478 6 7 6C7.26522 6 7.51957 6.10536 7.70711 6.29289C7.89464 6.48043 8 6.73478 8 7V11ZM7 0C5.14348 0 3.36301 0.737498 2.05025 2.05025C0.737498 3.36301 0 5.14348 0 7C0 8.85652 0.737498 10.637 2.05025 11.9497C3.36301 13.2625 5.14348 14 7 14C8.85652 14 10.637 13.2625 11.9497 11.9497C13.2625 10.637 14 8.85652 14 7C14 5.14348 13.2625 3.36301 11.9497 2.05025C10.637 0.737498 8.85652 0 7 0V0Z"></path>
+                                 </svg>
+                                 Hide description
+                              </div>
+                           </div>
+                           <div style="display: flex;">
+                              <div class="notion-record-icon notranslate" role="button" aria-disabled="false" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: flex; align-items: center; justify-content: center; height: 36px; width: 36px; border-radius: 3px; flex-shrink: 0; position: relative; z-index: 1; margin: 8px 8px 0px 3px; align-self: flex-start;">
+                                 <div style="display: flex; align-items: center; justify-content: center; height: 36px; width: 36px;">
+                                    <div style="height: 36px; width: 36px; font-size: 36px; line-height: 1.1; margin-left: 0px; color: black;"><span role="image" aria-label="🙆🏻‍♂️" style="font-family: &quot;Apple Color Emoji&quot;, &quot;Segoe UI Emoji&quot;, NotoColorEmoji, &quot;Noto Color Emoji&quot;, &quot;Segoe UI Symbol&quot;, &quot;Android Emoji&quot;, EmojiSymbols; line-height: 1em;">🙆🏻‍♂️</span></div>
+                                 </div>
+                              </div>
+                              <div data-block-id="bbad03e5-e060-4a08-bf45-38a16df520da" class="notion-selectable notion-collection_view_page-block" style="color: rgb(55, 53, 47); font-weight: 700; line-height: 1.2; font-size: 40px; font-family: inter, Helvetica, &quot;Apple Color Emoji&quot;, Arial, sans-serif, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;; cursor: text; display: flex; align-items: center;">
+                                 <div contenteditable="true" spellcheck="true" placeholder="Untitled" data-root="true" class="notranslate" style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px;">Blogs - Prashant Sudeep</div>
+                              </div>
+                           </div>
+                           <div style="max-width: 100%; border-radius: 3px; overflow: hidden; margin-bottom: 12px;">
+                              <div>
+                                 <div style="display: flex; cursor: text;">
+                                    <div contenteditable="true" spellcheck="true" placeholder="Add a description…" data-root="true" class="notranslate" style="max-width: 100%; width: 780px; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); font-size: 14px; padding-left: 6px; padding-bottom: 4px; padding-top: 3px;">writing down all mental junk here</div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div style="height: 42px; padding-left: 96px; padding-right: 96px; flex-shrink: 0; z-index: 1; overflow: visible; position: sticky; left: 0px;">
+                        <div data-block-id="bbad03e5-e060-4a08-bf45-38a16df520da" class="notion-selectable notion-collection_view_page-block" style="position: relative;">
+                           <div style="display: flex; align-items: center; height: 42px; padding-bottom: 2px;">
+                              <div class="notion-collection-view-select" role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: inline-flex; align-items: center; flex-shrink: 1; white-space: nowrap; height: 24px; border-radius: 3px; font-size: 14px; line-height: 1.2; min-width: 46px; padding-left: 6px; padding-right: 6px; color: rgb(55, 53, 47); margin-right: 8px;">
+                                 <svg viewBox="0 0 14 14" class="collectionList" style="width: 14px; height: 100%; display: block; fill: inherit; flex-shrink: 0;">
+                                    <path d="M12,1.5 L2,1.5 C1.72386,1.5 1.5,1.72386 1.5,2 L1.5,12 C1.5,12.2761 1.72386,12.5 2,12.5 L12,12.5 C12.2761,12.5 12.5,12.2761 12.5,12 L12.5,2 C12.5,1.72386 12.2761,1.5 12,1.5 Z M2,0 L12,0 C13.1046,0 14,0.895431 14,2 L14,12 C14,13.1046 13.1046,14 12,14 L2,14 C0.89543,14 0,13.1046 0,12 L0,2 C0,0.89543 0.895431,0 2,0 Z M3,3 L9,3 L9,4.5 L3,4.5 L3,3 Z M3,5.5 L11,5.5 L11,7 L3,7 L3,5.5 Z M3,8 L7,8 L7,9.5 L3,9.5 L3,8 Z"></path>
+                                 </svg>
+                                 <div style="font-size: 14px; line-height: 20px; color: rgb(55, 53, 47); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-left: 6px; margin-right: 4px; font-weight: 600;">List View</div>
+                                 <svg viewBox="0 0 30 30" class="chevronDown" style="width: 10px; height: 100%; display: block; fill: inherit; flex-shrink: 0; backface-visibility: hidden;">
+                                    <polygon points="15,17.4 4.8,7 2,9.8 15,23 28,9.8 25.2,7 "></polygon>
+                                 </svg>
+                              </div>
+                              <div style="display: flex; align-items: center; margin-left: auto; opacity: 1;">
+                                 <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: inline-flex; align-items: center; flex-shrink: 0; white-space: nowrap; height: 24px; border-radius: 3px; font-size: 14px; line-height: 1.2; min-width: 0px; padding-left: 6px; padding-right: 6px; color: rgba(55, 53, 47, 0.6);">Properties</div>
+                                 <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: inline-flex; align-items: center; flex-shrink: 0; white-space: nowrap; height: 24px; border-radius: 3px; font-size: 14px; line-height: 1.2; min-width: 0px; padding-left: 6px; padding-right: 6px; color: rgba(55, 53, 47, 0.6); margin-left: 4px;">Filter</div>
+                                 <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: inline-flex; align-items: center; flex-shrink: 0; white-space: nowrap; height: 24px; border-radius: 3px; font-size: 14px; line-height: 1.2; min-width: 0px; padding-left: 6px; padding-right: 6px; color: rgb(46, 170, 220); margin-left: 4px;">Sort</div>
+                                 <div role="button" aria-disabled="false" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: inline-flex; align-items: center; flex-shrink: 0; white-space: nowrap; height: 24px; border-radius: 3px; font-size: 14px; line-height: 1.2; min-width: 0px; padding-left: 6px; padding-right: 6px; color: rgba(55, 53, 47, 0.6); margin-left: 4px;">
+                                    <svg viewBox="0 0 12 12" class="collectionSearch" style="width: 14px; height: 14px; display: block; fill: rgba(55, 53, 47, 0.4); flex-shrink: 0; backface-visibility: hidden; margin-right: 6px;">
+                                       <path d="M11,9.92308 L8.04962,6.97308 C8.455,6.36385 8.69231,5.63308 8.69231,4.84615 C8.69231,2.72192 6.96962,1 4.84615,1 C2.72269,1 1,2.72192 1,4.84615 C1,6.97038 2.72231,8.69231 4.84615,8.69231 C5.63269,8.69231 6.36346,8.455 6.97269,8.05 L9.92308,11 L11,9.92308 Z M4.84615,7.15385 C3.57192,7.15385 2.53846,6.12038 2.53846,4.84615 C2.53846,3.57192 3.57231,2.53846 4.84615,2.53846 C6.12,2.53846 7.15385,3.57192 7.15385,4.84615 C7.15385,6.12038 6.12038,7.15385 4.84615,7.15385 Z"></path>
+                                    </svg>
+                                    Search
+                                 </div>
+                                 <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; border-radius: 3px; height: 24px; width: 24px; padding: 0px; margin-left: 4px;">
+                                    <svg viewBox="0 0 13 3" class="dots" style="width: 14px; height: 14px; display: block; fill: rgba(55, 53, 47, 0.4); flex-shrink: 0; backface-visibility: hidden;">
+                                       <g>
+                                          <path d="M3,1.5A1.5,1.5,0,1,1,1.5,0,1.5,1.5,0,0,1,3,1.5Z"></path>
+                                          <path d="M8,1.5A1.5,1.5,0,1,1,6.5,0,1.5,1.5,0,0,1,8,1.5Z"></path>
+                                          <path d="M13,1.5A1.5,1.5,0,1,1,11.5,0,1.5,1.5,0,0,1,13,1.5Z"></path>
+                                       </g>
+                                    </svg>
+                                 </div>
+                                 <div class="notion-collection-view-item-add" style="position: relative; display: inline-flex; flex-shrink: 0; height: 24px; margin-left: 10px; border-radius: 3px; overflow: hidden;">
+                                    <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: flex; align-items: center; justify-content: center; white-space: nowrap; border-top-left-radius: 3px; border-bottom-left-radius: 3px; color: white; line-height: 1.2; background: rgb(46, 170, 220); padding-left: 8px; padding-right: 8px; font-size: 14px; font-weight: 500;">New</div>
+                                    <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; background: rgb(46, 170, 220); align-self: stretch; box-shadow: rgba(55, 53, 47, 0.16) 1px 0px 0px inset; border-top-right-radius: 3px; border-bottom-right-radius: 3px;">
+                                       <svg viewBox="0 0 30 30" class="chevronDown" style="width: 10px; height: 100%; display: block; fill: white; flex-shrink: 0; backface-visibility: hidden;">
+                                          <polygon points="15,17.4 4.8,7 2,9.8 15,23 28,9.8 25.2,7 "></polygon>
+                                       </svg>
+                                    </div>
+                                    <div style="position: absolute; pointer-events: none; top: 0px; left: 0px; right: 0px; bottom: 0px; box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px inset, rgba(15, 15, 15, 0.1) 0px 1px 2px;"></div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="notion-scroller" style="flex-grow: 1; flex-shrink: 0; z-index: 1; margin-right: 0px; margin-bottom: 0px;">
+                        <div class="notion-list-view" style="padding-bottom: 180px; padding-left: 96px; padding-right: 96px;">
+                           <div data-block-id="bbad03e5-e060-4a08-bf45-38a16df520da" class="notion-selectable notion-collection_view_page-block" style="display: flex; flex-direction: column; border-top: 1px solid rgb(223, 223, 222); padding-top: 8px;">
+                              <div>
+                                 <div data-block-id="bbad03e5-e060-4a08-bf45-38a16df520da" class="notion-selectable notion-collection_view_page-block"></div>
+                              </div>
+                              <div data-block-id="91962a0a-e62e-466f-8c6c-a1b9cbe9b832" class="notion-selectable notion-page-block notion-collection-item" style="margin-top: 1px; margin-bottom: 1px;">
+                                 <a href="/sipu/How-Trust-works-91962a0ae62e466f8c6ca1b9cbe9b832" rel="noopener noreferrer" style="display: flex; color: inherit; text-decoration: none; height: 30px; overflow: hidden; border-radius: 3px;">
+                                    <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; width: 100%; display: flex; align-items: center; padding-right: 4px;">
+                                       <div class="notion-record-icon notranslate" role="button" aria-disabled="true" tabindex="-1" style="user-select: none; transition: background 20ms ease-in 0s; display: flex; align-items: center; justify-content: center; height: 22px; width: 22px; border-radius: 3px; flex-shrink: 0; margin-left: 2px; margin-right: 6px;">
+                                          <svg viewBox="0 0 30 30" class="page" style="width: 19.8px; height: 19.8px; display: block; fill: rgba(55, 53, 47, 0.8); flex-shrink: 0; backface-visibility: hidden;">
+                                             <g>
+                                                <path d="M16,1H4v28h22V11L16,1z M16,3.828L23.172,11H16V3.828z M24,27H6V3h8v10h10V27z M8,17h14v-2H8V17z M8,21h14v-2H8V21z M8,25h14v-2H8V25z"></path>
+                                             </g>
+                                          </svg>
+                                       </div>
+                                       <div style="display: flex; margin-right: auto; min-width: 240px;">
+                                          <div class="notranslate" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; border-bottom: 1px solid rgb(223, 223, 222); line-height: 1.3;">How Trust works ?</div>
+                                       </div>
+                                       <div style="display: flex; align-items: center; font-size: 14px; margin-left: 14px; margin-right: 0px; min-width: 20px; height: 0px;">
+                                          <div style="line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 12px; color: rgba(55, 53, 47, 0.6);">Oct 29, 2020 7:11 PM</div>
+                                       </div>
+                                    </div>
+                                 </a>
+                              </div>
+                              <div data-block-id="b31dfbaf-d56f-4c89-b93a-cef3dd98e97e" class="notion-selectable notion-page-block notion-collection-item" style="margin-top: 1px; margin-bottom: 1px;">
+                                 <a href="/sipu/Startup-Ideas-b31dfbafd56f4c89b93acef3dd98e97e" rel="noopener noreferrer" style="display: flex; color: inherit; text-decoration: none; height: 30px; overflow: hidden; border-radius: 3px;">
+                                    <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; width: 100%; display: flex; align-items: center; padding-right: 4px;">
+                                       <div class="notion-record-icon notranslate" role="button" aria-disabled="true" tabindex="-1" style="user-select: none; transition: background 20ms ease-in 0s; display: flex; align-items: center; justify-content: center; height: 22px; width: 22px; border-radius: 3px; flex-shrink: 0; margin-left: 2px; margin-right: 6px;">
+                                          <svg viewBox="0 0 30 30" class="page" style="width: 19.8px; height: 19.8px; display: block; fill: rgba(55, 53, 47, 0.8); flex-shrink: 0; backface-visibility: hidden;">
+                                             <g>
+                                                <path d="M16,1H4v28h22V11L16,1z M16,3.828L23.172,11H16V3.828z M24,27H6V3h8v10h10V27z M8,17h14v-2H8V17z M8,21h14v-2H8V21z M8,25h14v-2H8V25z"></path>
+                                             </g>
+                                          </svg>
+                                       </div>
+                                       <div style="display: flex; margin-right: auto; min-width: 240px;">
+                                          <div class="notranslate" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; border-bottom: 1px solid rgb(223, 223, 222); line-height: 1.3;">Startup Ideas</div>
+                                       </div>
+                                       <div style="display: flex; align-items: center; font-size: 14px; margin-left: 14px; margin-right: 0px; min-width: 20px; height: 0px;">
+                                          <div style="line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 12px; color: rgba(55, 53, 47, 0.6);">Oct 23, 2020 11:11 AM</div>
+                                       </div>
+                                    </div>
+                                 </a>
+                              </div>
+                              <div data-block-id="e0df13bb-bbd9-4265-a7fe-847a99d65cb4" class="notion-selectable notion-page-block notion-collection-item" style="margin-top: 1px; margin-bottom: 1px;">
+                                 <a href="/sipu/Team-building-how-to-do-this-e0df13bbbbd94265a7fe847a99d65cb4" rel="noopener noreferrer" style="display: flex; color: inherit; text-decoration: none; height: 30px; overflow: hidden; border-radius: 3px;">
+                                    <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; width: 100%; display: flex; align-items: center; padding-right: 4px;">
+                                       <div class="notion-record-icon notranslate" role="button" aria-disabled="true" tabindex="-1" style="user-select: none; transition: background 20ms ease-in 0s; display: flex; align-items: center; justify-content: center; height: 22px; width: 22px; border-radius: 3px; flex-shrink: 0; margin-left: 2px; margin-right: 6px;">
+                                          <svg viewBox="0 0 30 30" class="page" style="width: 19.8px; height: 19.8px; display: block; fill: rgba(55, 53, 47, 0.8); flex-shrink: 0; backface-visibility: hidden;">
+                                             <g>
+                                                <path d="M16,1H4v28h22V11L16,1z M16,3.828L23.172,11H16V3.828z M24,27H6V3h8v10h10V27z M8,17h14v-2H8V17z M8,21h14v-2H8V21z M8,25h14v-2H8V25z"></path>
+                                             </g>
+                                          </svg>
+                                       </div>
+                                       <div style="display: flex; margin-right: auto; min-width: 240px;">
+                                          <div class="notranslate" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; border-bottom: 1px solid rgb(223, 223, 222); line-height: 1.3;">Team building - how to do this</div>
+                                       </div>
+                                       <div style="display: flex; align-items: center; font-size: 14px; margin-left: 14px; margin-right: 0px; min-width: 20px; height: 0px;">
+                                          <div style="line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 12px; color: rgba(55, 53, 47, 0.6);">Oct 22, 2020 6:21 PM</div>
+                                       </div>
+                                    </div>
+                                 </a>
+                              </div>
+                              <div data-block-id="f80d4558-24f7-4e2b-a496-01b97029df14" class="notion-selectable notion-page-block notion-collection-item" style="margin-top: 1px; margin-bottom: 1px;">
+                                 <a href="/sipu/Market-Sizing-What-it-is-and-how-to-do-it-f80d455824f74e2ba49601b97029df14" rel="noopener noreferrer" style="display: flex; color: inherit; text-decoration: none; height: 30px; overflow: hidden; border-radius: 3px;">
+                                    <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; width: 100%; display: flex; align-items: center; padding-right: 4px;">
+                                       <div class="notion-record-icon notranslate" role="button" aria-disabled="true" tabindex="-1" style="user-select: none; transition: background 20ms ease-in 0s; display: flex; align-items: center; justify-content: center; height: 22px; width: 22px; border-radius: 3px; flex-shrink: 0; margin-left: 2px; margin-right: 6px;">
+                                          <svg viewBox="0 0 30 30" class="pageEmpty" style="width: 19.8px; height: 19.8px; display: block; fill: rgba(55, 53, 47, 0.8); flex-shrink: 0; backface-visibility: hidden;">
+                                             <g>
+                                                <path d="M16,1H4v28h22V11L16,1z M23.172,11H16V3.828L23.172,11z M24,27H6V3h8v10h10V27z"></path>
+                                             </g>
+                                          </svg>
+                                       </div>
+                                       <div style="display: flex; margin-right: auto; min-width: 240px;">
+                                          <div class="notranslate" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; border-bottom: 1px solid rgb(223, 223, 222); line-height: 1.3;">Market Sizing - What it is and how to do it?</div>
+                                       </div>
+                                       <div style="display: flex; align-items: center; font-size: 14px; margin-left: 14px; margin-right: 0px; min-width: 20px; height: 0px;">
+                                          <div style="line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 12px; color: rgba(55, 53, 47, 0.6);">Oct 22, 2020 6:17 PM</div>
+                                       </div>
+                                    </div>
+                                 </a>
+                              </div>
+                              <div data-block-id="edd2a45c-bc47-41f3-998d-d51e22300b42" class="notion-selectable notion-page-block notion-collection-item" style="margin-top: 1px; margin-bottom: 1px;">
+                                 <a href="/sipu/How-does-Distribution-work-edd2a45cbc4741f3998dd51e22300b42" rel="noopener noreferrer" style="display: flex; color: inherit; text-decoration: none; height: 30px; overflow: hidden; border-radius: 3px;">
+                                    <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; width: 100%; display: flex; align-items: center; padding-right: 4px;">
+                                       <div class="notion-record-icon notranslate" role="button" aria-disabled="true" tabindex="-1" style="user-select: none; transition: background 20ms ease-in 0s; display: flex; align-items: center; justify-content: center; height: 22px; width: 22px; border-radius: 3px; flex-shrink: 0; margin-left: 2px; margin-right: 6px;">
+                                          <svg viewBox="0 0 30 30" class="page" style="width: 19.8px; height: 19.8px; display: block; fill: rgba(55, 53, 47, 0.8); flex-shrink: 0; backface-visibility: hidden;">
+                                             <g>
+                                                <path d="M16,1H4v28h22V11L16,1z M16,3.828L23.172,11H16V3.828z M24,27H6V3h8v10h10V27z M8,17h14v-2H8V17z M8,21h14v-2H8V21z M8,25h14v-2H8V25z"></path>
+                                             </g>
+                                          </svg>
+                                       </div>
+                                       <div style="display: flex; margin-right: auto; min-width: 240px;">
+                                          <div class="notranslate" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; border-bottom: 1px solid rgb(223, 223, 222); line-height: 1.3;">How does Distribution work?</div>
+                                       </div>
+                                       <div style="display: flex; align-items: center; font-size: 14px; margin-left: 14px; margin-right: 0px; min-width: 20px; height: 0px;">
+                                          <div style="line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 12px; color: rgba(55, 53, 47, 0.6);">Oct 22, 2020 11:35 AM</div>
+                                       </div>
+                                    </div>
+                                 </a>
+                              </div>
+                              <div data-block-id="b9d8bde5-896f-4a93-ad08-63991ffc199f" class="notion-selectable notion-page-block notion-collection-item" style="margin-top: 1px; margin-bottom: 1px;">
+                                 <a href="/sipu/Quotes-Notes-b9d8bde5896f4a93ad0863991ffc199f" rel="noopener noreferrer" style="display: flex; color: inherit; text-decoration: none; height: 30px; overflow: hidden; border-radius: 3px;">
+                                    <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; width: 100%; display: flex; align-items: center; padding-right: 4px;">
+                                       <div class="notion-record-icon notranslate" role="button" aria-disabled="true" tabindex="-1" style="user-select: none; transition: background 20ms ease-in 0s; display: flex; align-items: center; justify-content: center; height: 22px; width: 22px; border-radius: 3px; flex-shrink: 0; margin-left: 2px; margin-right: 6px;">
+                                          <svg viewBox="0 0 30 30" class="page" style="width: 19.8px; height: 19.8px; display: block; fill: rgba(55, 53, 47, 0.8); flex-shrink: 0; backface-visibility: hidden;">
+                                             <g>
+                                                <path d="M16,1H4v28h22V11L16,1z M16,3.828L23.172,11H16V3.828z M24,27H6V3h8v10h10V27z M8,17h14v-2H8V17z M8,21h14v-2H8V21z M8,25h14v-2H8V25z"></path>
+                                             </g>
+                                          </svg>
+                                       </div>
+                                       <div style="display: flex; margin-right: auto; min-width: 240px;">
+                                          <div class="notranslate" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; border-bottom: 1px solid rgb(223, 223, 222); line-height: 1.3;">Quotes / Notes</div>
+                                       </div>
+                                       <div style="display: flex; align-items: center; font-size: 14px; margin-left: 14px; margin-right: 0px; min-width: 20px; height: 0px;">
+                                          <div style="line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 12px; color: rgba(55, 53, 47, 0.6);">Oct 22, 2020 10:16 AM</div>
+                                       </div>
+                                    </div>
+                                 </a>
+                              </div>
+                              <div data-block-id="cedbb004-93e0-4382-afa1-bb8bd9be91a6" class="notion-selectable notion-page-block notion-collection-item" style="margin-top: 1px; margin-bottom: 1px;">
+                                 <a href="/sipu/Your-college-degrees-are-not-enough-cedbb00493e04382afa1bb8bd9be91a6" rel="noopener noreferrer" style="display: flex; color: inherit; text-decoration: none; height: 30px; overflow: hidden; border-radius: 3px;">
+                                    <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; width: 100%; display: flex; align-items: center; padding-right: 4px;">
+                                       <div class="notion-record-icon notranslate" role="button" aria-disabled="true" tabindex="-1" style="user-select: none; transition: background 20ms ease-in 0s; display: flex; align-items: center; justify-content: center; height: 22px; width: 22px; border-radius: 3px; flex-shrink: 0; margin-left: 2px; margin-right: 6px;">
+                                          <svg viewBox="0 0 30 30" class="pageEmpty" style="width: 19.8px; height: 19.8px; display: block; fill: rgba(55, 53, 47, 0.8); flex-shrink: 0; backface-visibility: hidden;">
+                                             <g>
+                                                <path d="M16,1H4v28h22V11L16,1z M23.172,11H16V3.828L23.172,11z M24,27H6V3h8v10h10V27z"></path>
+                                             </g>
+                                          </svg>
+                                       </div>
+                                       <div style="display: flex; margin-right: auto; min-width: 240px;">
+                                          <div class="notranslate" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; border-bottom: 1px solid rgb(223, 223, 222); line-height: 1.3;">Your college degrees are not enough</div>
+                                       </div>
+                                       <div style="display: flex; align-items: center; font-size: 14px; margin-left: 14px; margin-right: 0px; min-width: 20px; height: 0px;">
+                                          <div style="line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 12px; color: rgba(55, 53, 47, 0.6);">Oct 21, 2020 6:38 PM</div>
+                                       </div>
+                                    </div>
+                                 </a>
+                              </div>
+                              <div data-block-id="01561328-ee37-4046-b061-e8f18f983740" class="notion-selectable notion-page-block notion-collection-item" style="margin-top: 1px; margin-bottom: 1px;">
+                                 <a href="/sipu/Overcoming-Procrastination-a-guide-01561328ee374046b061e8f18f983740" rel="noopener noreferrer" style="display: flex; color: inherit; text-decoration: none; height: 30px; overflow: hidden; border-radius: 3px;">
+                                    <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; width: 100%; display: flex; align-items: center; padding-right: 4px;">
+                                       <div class="notion-record-icon notranslate" role="button" aria-disabled="true" tabindex="-1" style="user-select: none; transition: background 20ms ease-in 0s; display: flex; align-items: center; justify-content: center; height: 22px; width: 22px; border-radius: 3px; flex-shrink: 0; margin-left: 2px; margin-right: 6px;">
+                                          <svg viewBox="0 0 30 30" class="page" style="width: 19.8px; height: 19.8px; display: block; fill: rgba(55, 53, 47, 0.8); flex-shrink: 0; backface-visibility: hidden;">
+                                             <g>
+                                                <path d="M16,1H4v28h22V11L16,1z M16,3.828L23.172,11H16V3.828z M24,27H6V3h8v10h10V27z M8,17h14v-2H8V17z M8,21h14v-2H8V21z M8,25h14v-2H8V25z"></path>
+                                             </g>
+                                          </svg>
+                                       </div>
+                                       <div style="display: flex; margin-right: auto; min-width: 240px;">
+                                          <div class="notranslate" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; border-bottom: 1px solid rgb(223, 223, 222); line-height: 1.3;">Overcoming Procrastination (a guide)</div>
+                                       </div>
+                                       <div style="display: flex; align-items: center; font-size: 14px; margin-left: 14px; margin-right: 0px; min-width: 20px; height: 0px; flex-shrink: 0;">
+                                          <div style="display: flex; min-width: 0px; margin-right: -6px;">
+                                             <div style="display: flex; align-items: center; flex-shrink: 0; min-width: 0px; height: 18px; border-radius: 3px; padding-left: 8px; padding-right: 8px; font-size: 14px; line-height: 120%; color: rgb(55, 53, 47); background: rgba(0, 135, 107, 0.2); margin: 0px 6px 0px 0px;">
+                                                <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">overthinking</div>
+                                             </div>
+                                             <div style="display: flex; align-items: center; flex-shrink: 0; min-width: 0px; height: 18px; border-radius: 3px; padding-left: 8px; padding-right: 8px; font-size: 14px; line-height: 120%; color: rgb(55, 53, 47); background: rgba(206, 205, 202, 0.5); margin: 0px 6px 0px 0px;">
+                                                <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">delaying</div>
+                                             </div>
+                                             <div style="display: flex; align-items: center; flex-shrink: 0; min-width: 0px; height: 18px; border-radius: 3px; padding-left: 8px; padding-right: 8px; font-size: 14px; line-height: 120%; color: rgb(55, 53, 47); background: rgba(233, 168, 0, 0.2); margin: 0px 6px 0px 0px;">
+                                                <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">procrastination</div>
+                                             </div>
+                                             <div style="display: flex; align-items: center; flex-shrink: 0; min-width: 0px; height: 18px; border-radius: 3px; padding-left: 8px; padding-right: 8px; font-size: 14px; line-height: 120%; color: rgb(55, 53, 47); background: rgba(245, 93, 0, 0.2); margin: 0px 6px 0px 0px;">
+                                                <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">work</div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div style="display: flex; align-items: center; font-size: 14px; margin-left: 14px; margin-right: 0px; min-width: 20px; height: 0px;">
+                                          <div style="line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 12px; color: rgba(55, 53, 47, 0.6);">Oct 21, 2020 3:28 PM</div>
+                                       </div>
+                                    </div>
+                                 </a>
+                              </div>
+                              <div data-block-id="f0214722-60e6-420d-851a-08325136d1d0" class="notion-selectable notion-page-block notion-collection-item" style="margin-top: 1px; margin-bottom: 1px;">
+                                 <a href="/sipu/How-to-improve-Focus-f021472260e6420d851a08325136d1d0" rel="noopener noreferrer" style="display: flex; color: inherit; text-decoration: none; height: 30px; overflow: hidden; border-radius: 3px;">
+                                    <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; width: 100%; display: flex; align-items: center; padding-right: 4px;">
+                                       <div class="notion-record-icon notranslate" role="button" aria-disabled="true" tabindex="-1" style="user-select: none; transition: background 20ms ease-in 0s; display: flex; align-items: center; justify-content: center; height: 22px; width: 22px; border-radius: 3px; flex-shrink: 0; margin-left: 2px; margin-right: 6px;">
+                                          <svg viewBox="0 0 30 30" class="page" style="width: 19.8px; height: 19.8px; display: block; fill: rgba(55, 53, 47, 0.8); flex-shrink: 0; backface-visibility: hidden;">
+                                             <g>
+                                                <path d="M16,1H4v28h22V11L16,1z M16,3.828L23.172,11H16V3.828z M24,27H6V3h8v10h10V27z M8,17h14v-2H8V17z M8,21h14v-2H8V21z M8,25h14v-2H8V25z"></path>
+                                             </g>
+                                          </svg>
+                                       </div>
+                                       <div style="display: flex; margin-right: auto; min-width: 240px;">
+                                          <div class="notranslate" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; border-bottom: 1px solid rgb(223, 223, 222); line-height: 1.3;">How to improve Focus?</div>
+                                       </div>
+                                       <div style="display: flex; align-items: center; font-size: 14px; margin-left: 14px; margin-right: 0px; min-width: 20px; height: 0px; flex-shrink: 0;">
+                                          <div style="display: flex; min-width: 0px; margin-right: -6px;">
+                                             <div style="display: flex; align-items: center; flex-shrink: 0; min-width: 0px; height: 18px; border-radius: 3px; padding-left: 8px; padding-right: 8px; font-size: 14px; line-height: 120%; color: rgb(55, 53, 47); background: rgba(245, 93, 0, 0.2); margin: 0px 6px 0px 0px;">
+                                                <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">focus</div>
+                                             </div>
+                                             <div style="display: flex; align-items: center; flex-shrink: 0; min-width: 0px; height: 18px; border-radius: 3px; padding-left: 8px; padding-right: 8px; font-size: 14px; line-height: 120%; color: rgb(55, 53, 47); background: rgba(245, 93, 0, 0.2); margin: 0px 6px 0px 0px;">
+                                                <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">work</div>
+                                             </div>
+                                             <div style="display: flex; align-items: center; flex-shrink: 0; min-width: 0px; height: 18px; border-radius: 3px; padding-left: 8px; padding-right: 8px; font-size: 14px; line-height: 120%; color: rgb(55, 53, 47); background: rgba(103, 36, 222, 0.2); margin: 0px 6px 0px 0px;">
+                                                <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">distraction</div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div style="display: flex; align-items: center; font-size: 14px; margin-left: 14px; margin-right: 0px; min-width: 20px; height: 0px;">
+                                          <div style="line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 12px; color: rgba(55, 53, 47, 0.6);">Oct 21, 2020 3:22 PM</div>
+                                       </div>
+                                    </div>
+                                 </a>
+                              </div>
+                              <div data-block-id="79b53d87-42fc-4e01-b0cf-80591d6de3bc" class="notion-selectable notion-page-block notion-collection-item" style="margin-top: 1px; margin-bottom: 1px;">
+                                 <a href="/sipu/Writing-an-Email-Copy-that-Converts-79b53d8742fc4e01b0cf80591d6de3bc" rel="noopener noreferrer" style="display: flex; color: inherit; text-decoration: none; height: 30px; overflow: hidden; border-radius: 3px;">
+                                    <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; width: 100%; display: flex; align-items: center; padding-right: 4px;">
+                                       <div class="notion-record-icon notranslate" role="button" aria-disabled="true" tabindex="-1" style="user-select: none; transition: background 20ms ease-in 0s; display: flex; align-items: center; justify-content: center; height: 22px; width: 22px; border-radius: 3px; flex-shrink: 0; margin-left: 2px; margin-right: 6px;">
+                                          <svg viewBox="0 0 30 30" class="page" style="width: 19.8px; height: 19.8px; display: block; fill: rgba(55, 53, 47, 0.8); flex-shrink: 0; backface-visibility: hidden;">
+                                             <g>
+                                                <path d="M16,1H4v28h22V11L16,1z M16,3.828L23.172,11H16V3.828z M24,27H6V3h8v10h10V27z M8,17h14v-2H8V17z M8,21h14v-2H8V21z M8,25h14v-2H8V25z"></path>
+                                             </g>
+                                          </svg>
+                                       </div>
+                                       <div style="display: flex; margin-right: auto; min-width: 240px;">
+                                          <div class="notranslate" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; border-bottom: 1px solid rgb(223, 223, 222); line-height: 1.3;">Writing an Email Copy that Converts</div>
+                                       </div>
+                                       <div style="display: flex; align-items: center; font-size: 14px; margin-left: 14px; margin-right: 0px; min-width: 20px; height: 0px; flex-shrink: 0;">
+                                          <div style="display: flex; min-width: 0px; margin-right: -6px;">
+                                             <div style="display: flex; align-items: center; flex-shrink: 0; min-width: 0px; height: 18px; border-radius: 3px; padding-left: 8px; padding-right: 8px; font-size: 14px; line-height: 120%; color: rgb(55, 53, 47); background: rgba(0, 120, 223, 0.2); margin: 0px 6px 0px 0px;">
+                                                <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">email</div>
+                                             </div>
+                                             <div style="display: flex; align-items: center; flex-shrink: 0; min-width: 0px; height: 18px; border-radius: 3px; padding-left: 8px; padding-right: 8px; font-size: 14px; line-height: 120%; color: rgb(55, 53, 47); background: rgba(0, 120, 223, 0.2); margin: 0px 6px 0px 0px;">
+                                                <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">marketing</div>
+                                             </div>
+                                             <div style="display: flex; align-items: center; flex-shrink: 0; min-width: 0px; height: 18px; border-radius: 3px; padding-left: 8px; padding-right: 8px; font-size: 14px; line-height: 120%; color: rgb(55, 53, 47); background: rgba(221, 0, 129, 0.2); margin: 0px 6px 0px 0px;">
+                                                <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">copywriting</div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div style="display: flex; align-items: center; font-size: 14px; margin-left: 14px; margin-right: 0px; min-width: 20px; height: 0px;">
+                                          <div style="line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 12px; color: rgba(55, 53, 47, 0.6);">Oct 21, 2020 2:48 PM</div>
+                                       </div>
+                                    </div>
+                                 </a>
+                              </div>
+                              <div data-block-id="1ecf1906-d446-4685-802d-61ca71e1832d" class="notion-selectable notion-page-block notion-collection-item" style="margin-top: 1px; margin-bottom: 1px;">
+                                 <a href="/sipu/Fresher-s-guide-to-getting-a-Job-1ecf1906d4464685802d61ca71e1832d" rel="noopener noreferrer" style="display: flex; color: inherit; text-decoration: none; height: 30px; overflow: hidden; border-radius: 3px;">
+                                    <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; width: 100%; display: flex; align-items: center; padding-right: 4px;">
+                                       <div class="notion-record-icon notranslate" role="button" aria-disabled="true" tabindex="-1" style="user-select: none; transition: background 20ms ease-in 0s; display: flex; align-items: center; justify-content: center; height: 22px; width: 22px; border-radius: 3px; flex-shrink: 0; margin-left: 2px; margin-right: 6px;">
+                                          <svg viewBox="0 0 30 30" class="page" style="width: 19.8px; height: 19.8px; display: block; fill: rgba(55, 53, 47, 0.8); flex-shrink: 0; backface-visibility: hidden;">
+                                             <g>
+                                                <path d="M16,1H4v28h22V11L16,1z M16,3.828L23.172,11H16V3.828z M24,27H6V3h8v10h10V27z M8,17h14v-2H8V17z M8,21h14v-2H8V21z M8,25h14v-2H8V25z"></path>
+                                             </g>
+                                          </svg>
+                                       </div>
+                                       <div style="display: flex; margin-right: auto; min-width: 240px;">
+                                          <div class="notranslate" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; border-bottom: 1px solid rgb(223, 223, 222); line-height: 1.3;">Fresher's guide to getting a Job</div>
+                                          <div style="display: inline-flex; align-items: center; color: rgba(55, 53, 47, 0.4); font-weight: 600; font-size: 12px; padding-left: 10px; padding-right: 10px;">
+                                             <svg viewBox="0 0 14 14" class="speechBubble" style="width: 14px; height: 14px; display: block; fill: rgba(55, 53, 47, 0.4); flex-shrink: 0; backface-visibility: hidden; margin-right: 4px;">
+                                                <path d="M0.913134,0.920639 C1.49851,0.331726 2.29348,0 3.12342,0 L10.8766,0 C11.7065,0 12.5015,0.331725 13.0869,0.920639 C13.6721,1.50939 14,2.30689 14,3.13746 L14,7.62943 C13.9962,8.01443 13.9059,8.47125 13.7629,8.82852 C13.6128,9.183 13.3552,9.57088 13.0869,9.84625 C12.813,10.1163 12.4265,10.3761 12.0734,10.5274 C11.7172,10.6716 11.2607,10.763 10.8766,10.7669 L10.1234,10.7669 L10.1234,12.5676 L10.1209,12.5676 C10.1204,12.793 10.0633,13.0792 9.97807,13.262 C9.8627,13.466 9.61158,13.7198 9.40818,13.8382 L9.40662,13.8391 L9.40539,13.8398 C9.22962,13.9255 8.94505,13.9951 8.75059,14 L8.74789,14 C8.35724,13.9963 7.98473,13.8383 7.71035,13.5617 L5.39553,10.7669 L3.12342,10.7669 C2.29348,10.7669 1.49851,10.4352 0.913134,9.84625 C0.644826,9.57089 0.387187,9.183 0.23711,8.82852 C0.0941235,8.47125 0.00379528,8.01443 0,7.62943 L0,3.13746 C0,2.30689 0.327915,1.50939 0.913134,0.920639 Z M3.12342,1.59494 C2.71959,1.59494 2.33133,1.75628 2.04431,2.04503 C1.75713,2.33395 1.59494,2.72681 1.59494,3.13746 L1.59494,7.62943 C1.59114,7.85901 1.62114,8.01076 1.71193,8.22129 C1.79563,8.4346 1.88065,8.56264 2.04431,8.72185 C2.33133,9.01061 2.71959,9.17195 3.12342,9.17195 L5.72383,9.17195 C5.93413,9.17195 6.13592,9.25502 6.28527,9.40308 L8.52848,12.1269 L8.52848,9.96942 C8.52848,9.52899 8.88552,9.17195 9.32595,9.17195 L10.8766,9.17195 C11.1034,9.17583 11.2517,9.14614 11.4599,9.05518 C11.6712,8.97132 11.7976,8.88635 11.9557,8.72185 C12.1193,8.56264 12.2044,8.4346 12.2881,8.22129 C12.3789,8.01076 12.4089,7.85901 12.4051,7.62943 L12.4051,3.13746 C12.4051,2.72681 12.2429,2.33394 11.9557,2.04503 C11.6687,1.75628 11.2804,1.59494 10.8766,1.59494 L3.12342,1.59494 Z"></path>
+                                             </svg>
+                                             1
+                                          </div>
+                                       </div>
+                                       <div style="display: flex; align-items: center; font-size: 14px; margin-left: 14px; margin-right: 0px; min-width: 20px; height: 0px; flex-shrink: 0;">
+                                          <div style="display: flex; min-width: 0px; margin-right: -6px;">
+                                             <div style="display: flex; align-items: center; flex-shrink: 0; min-width: 0px; height: 18px; border-radius: 3px; padding-left: 8px; padding-right: 8px; font-size: 14px; line-height: 120%; color: rgb(55, 53, 47); background: rgba(255, 0, 26, 0.2); margin: 0px 6px 0px 0px;">
+                                                <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">freshers</div>
+                                             </div>
+                                             <div style="display: flex; align-items: center; flex-shrink: 0; min-width: 0px; height: 18px; border-radius: 3px; padding-left: 8px; padding-right: 8px; font-size: 14px; line-height: 120%; color: rgb(55, 53, 47); background: rgba(140, 46, 0, 0.2); margin: 0px 6px 0px 0px;">
+                                                <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">jobs</div>
+                                             </div>
+                                             <div style="display: flex; align-items: center; flex-shrink: 0; min-width: 0px; height: 18px; border-radius: 3px; padding-left: 8px; padding-right: 8px; font-size: 14px; line-height: 120%; color: rgb(55, 53, 47); background: rgba(233, 168, 0, 0.2); margin: 0px 6px 0px 0px;">
+                                                <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">software</div>
+                                             </div>
+                                             <div style="display: flex; align-items: center; flex-shrink: 0; min-width: 0px; height: 18px; border-radius: 3px; padding-left: 8px; padding-right: 8px; font-size: 14px; line-height: 120%; color: rgb(55, 53, 47); background: rgba(0, 135, 107, 0.2); margin: 0px 6px 0px 0px;">
+                                                <div style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">startups</div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                       <div style="display: flex; align-items: center; font-size: 14px; margin-left: 14px; margin-right: 0px; min-width: 20px; height: 0px;">
+                                          <div style="line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 12px; color: rgba(55, 53, 47, 0.6);">Oct 21, 2020 11:43 AM</div>
+                                       </div>
+                                    </div>
+                                 </a>
+                              </div>
+                              <div data-block-id="deb17670-dabf-49ee-b146-4acfeecba8df" class="notion-selectable notion-page-block notion-collection-item" style="margin-top: 1px; margin-bottom: 1px;">
+                                 <a href="/sipu/Issues-with-Test-Price-Customer-Type-deb17670dabf49eeb1464acfeecba8df" rel="noopener noreferrer" style="display: flex; color: inherit; text-decoration: none; height: 30px; overflow: hidden; border-radius: 3px;">
+                                    <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; width: 100%; display: flex; align-items: center; padding-right: 4px;">
+                                       <div class="notion-record-icon notranslate" role="button" aria-disabled="true" tabindex="-1" style="user-select: none; transition: background 20ms ease-in 0s; display: flex; align-items: center; justify-content: center; height: 22px; width: 22px; border-radius: 3px; flex-shrink: 0; margin-left: 2px; margin-right: 6px;">
+                                          <svg viewBox="0 0 30 30" class="page" style="width: 19.8px; height: 19.8px; display: block; fill: rgba(55, 53, 47, 0.8); flex-shrink: 0; backface-visibility: hidden;">
+                                             <g>
+                                                <path d="M16,1H4v28h22V11L16,1z M16,3.828L23.172,11H16V3.828z M24,27H6V3h8v10h10V27z M8,17h14v-2H8V17z M8,21h14v-2H8V21z M8,25h14v-2H8V25z"></path>
+                                             </g>
+                                          </svg>
+                                       </div>
+                                       <div style="display: flex; margin-right: auto; min-width: 240px;">
+                                          <div class="notranslate" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; border-bottom: 1px solid rgb(223, 223, 222); line-height: 1.3;">Issues with Test Price Customer Type</div>
+                                       </div>
+                                       <div style="display: flex; align-items: center; font-size: 14px; margin-left: 14px; margin-right: 0px; min-width: 20px; height: 0px;">
+                                          <div style="line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 12px; color: rgba(55, 53, 47, 0.6);">Feb 21, 2019 2:08 AM</div>
+                                       </div>
+                                    </div>
+                                 </a>
+                              </div>
+                              <div data-block-id="946f4357-610f-483c-be94-360d376559e0" class="notion-selectable notion-page-block notion-collection-item" style="margin-top: 1px; margin-bottom: 1px;">
+                                 <a href="/sipu/Prediction-Algorithm-Level-1-946f4357610f483cbe94360d376559e0" rel="noopener noreferrer" style="display: flex; color: inherit; text-decoration: none; height: 30px; overflow: hidden; border-radius: 3px;">
+                                    <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; width: 100%; display: flex; align-items: center; padding-right: 4px;">
+                                       <div class="notion-record-icon notranslate" role="button" aria-disabled="true" tabindex="-1" style="user-select: none; transition: background 20ms ease-in 0s; display: flex; align-items: center; justify-content: center; height: 22px; width: 22px; border-radius: 3px; flex-shrink: 0; margin-left: 2px; margin-right: 6px;">
+                                          <svg viewBox="0 0 30 30" class="page" style="width: 19.8px; height: 19.8px; display: block; fill: rgba(55, 53, 47, 0.8); flex-shrink: 0; backface-visibility: hidden;">
+                                             <g>
+                                                <path d="M16,1H4v28h22V11L16,1z M16,3.828L23.172,11H16V3.828z M24,27H6V3h8v10h10V27z M8,17h14v-2H8V17z M8,21h14v-2H8V21z M8,25h14v-2H8V25z"></path>
+                                             </g>
+                                          </svg>
+                                       </div>
+                                       <div style="display: flex; margin-right: auto; min-width: 240px;">
+                                          <div class="notranslate" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; border-bottom: 1px solid rgb(223, 223, 222); line-height: 1.3;">Prediction Algorithm - Level 1</div>
+                                       </div>
+                                       <div style="display: flex; align-items: center; font-size: 14px; margin-left: 14px; margin-right: 0px; min-width: 20px; height: 0px;">
+                                          <div style="line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 12px; color: rgba(55, 53, 47, 0.6);">Jun 21, 2018 11:18 AM</div>
+                                       </div>
+                                    </div>
+                                 </a>
+                              </div>
+                              <div data-block-id="9d2bfda2-a1ea-4a27-9ede-a098b8f6cd31" class="notion-selectable notion-page-block notion-collection-item" style="margin-top: 1px; margin-bottom: 1px;">
+                                 <a href="/sipu/Code-Review-Must-have-for-code-to-pass-9d2bfda2a1ea4a279edea098b8f6cd31" rel="noopener noreferrer" style="display: flex; color: inherit; text-decoration: none; height: 30px; overflow: hidden; border-radius: 3px;">
+                                    <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; width: 100%; display: flex; align-items: center; padding-right: 4px;">
+                                       <div class="notion-record-icon notranslate" role="button" aria-disabled="true" tabindex="-1" style="user-select: none; transition: background 20ms ease-in 0s; display: flex; align-items: center; justify-content: center; height: 22px; width: 22px; border-radius: 3px; flex-shrink: 0; margin-left: 2px; margin-right: 6px;">
+                                          <svg viewBox="0 0 30 30" class="page" style="width: 19.8px; height: 19.8px; display: block; fill: rgba(55, 53, 47, 0.8); flex-shrink: 0; backface-visibility: hidden;">
+                                             <g>
+                                                <path d="M16,1H4v28h22V11L16,1z M16,3.828L23.172,11H16V3.828z M24,27H6V3h8v10h10V27z M8,17h14v-2H8V17z M8,21h14v-2H8V21z M8,25h14v-2H8V25z"></path>
+                                             </g>
+                                          </svg>
+                                       </div>
+                                       <div style="display: flex; margin-right: auto; min-width: 240px;">
+                                          <div class="notranslate" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; border-bottom: 1px solid rgb(223, 223, 222); line-height: 1.3;">Code Review - Must have for code to pass</div>
+                                       </div>
+                                       <div style="display: flex; align-items: center; font-size: 14px; margin-left: 14px; margin-right: 0px; min-width: 20px; height: 0px;">
+                                          <div style="line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 12px; color: rgba(55, 53, 47, 0.6);">Jun 19, 2018 11:47 AM</div>
+                                       </div>
+                                    </div>
+                                 </a>
+                              </div>
+                              <div data-block-id="acc9109a-c6d9-4bfc-9b45-b22201ef803b" class="notion-selectable notion-page-block notion-collection-item" style="margin-top: 1px; margin-bottom: 1px;">
+                                 <a href="/sipu/Rules-based-Platform-B2B-PES-acc9109ac6d94bfc9b45b22201ef803b" rel="noopener noreferrer" style="display: flex; color: inherit; text-decoration: none; height: 30px; overflow: hidden; border-radius: 3px;">
+                                    <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; width: 100%; display: flex; align-items: center; padding-right: 4px;">
+                                       <div class="notion-record-icon notranslate" role="button" aria-disabled="true" tabindex="-1" style="user-select: none; transition: background 20ms ease-in 0s; display: flex; align-items: center; justify-content: center; height: 22px; width: 22px; border-radius: 3px; flex-shrink: 0; margin-left: 2px; margin-right: 6px;">
+                                          <svg viewBox="0 0 30 30" class="page" style="width: 19.8px; height: 19.8px; display: block; fill: rgba(55, 53, 47, 0.8); flex-shrink: 0; backface-visibility: hidden;">
+                                             <g>
+                                                <path d="M16,1H4v28h22V11L16,1z M16,3.828L23.172,11H16V3.828z M24,27H6V3h8v10h10V27z M8,17h14v-2H8V17z M8,21h14v-2H8V21z M8,25h14v-2H8V25z"></path>
+                                             </g>
+                                          </svg>
+                                       </div>
+                                       <div style="display: flex; margin-right: auto; min-width: 240px;">
+                                          <div class="notranslate" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 500; border-bottom: 1px solid rgb(223, 223, 222); line-height: 1.3;">Rules based Platform - B2B/PES</div>
+                                       </div>
+                                       <div style="display: flex; align-items: center; font-size: 14px; margin-left: 14px; margin-right: 0px; min-width: 20px; height: 0px;">
+                                          <div style="line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 12px; color: rgba(55, 53, 47, 0.6);">Jun 19, 2018 10:45 AM</div>
+                                       </div>
+                                    </div>
+                                 </a>
+                              </div>
+                              <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: pointer; display: flex; align-items: center; height: 30px; border-radius: 3px;">
+                                 <svg viewBox="0 0 16 16" class="plus" style="width: 14px; height: 14px; display: block; fill: rgba(55, 53, 47, 0.3); flex-shrink: 0; backface-visibility: hidden; margin-left: 4px; margin-right: 12px;">
+                                    <path d="M7.977 14.963c.407 0 .747-.324.747-.723V8.72h5.362c.399 0 .74-.34.74-.747a.746.746 0 00-.74-.738H8.724V1.706c0-.398-.34-.722-.747-.722a.732.732 0 00-.739.722v5.529h-5.37a.746.746 0 00-.74.738c0 .407.341.747.74.747h5.37v5.52c0 .399.332.723.739.723z"></path>
+                                 </svg>
+                                 <div style="color: rgba(55, 53, 47, 0.4);">New</div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="notion-presence-container" style="position: absolute; top: 0px; left: 0px; pointer-events: none; z-index: 1;">
+                        <div></div>
+                     </div>
+                  </div>
+                  <div>
+                     <div style="position: fixed; left: 336px; top: 231px; z-index: 99; opacity: 1;">
+                        <div style="position: absolute; top: 3px; left: -20px; width: 18px; height: 24px; pointer-events: auto; cursor: -webkit-grab;">
+                           <div data-block-id="91962a0a-e62e-466f-8c6c-a1b9cbe9b832" class="notion-selectable notion-page-block">
+                              <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: grab; display: flex; align-items: center; justify-content: center; width: 18px; height: 24px; border-radius: 3px; fill: rgba(55, 53, 47, 0.3);">
+                                 <svg viewBox="0 0 10 10" class="dragHandle" style="width: 14px; height: 14px; display: block; fill: inherit; flex-shrink: 0; backface-visibility: hidden;">
+                                    <path d="M3,2 C2.44771525,2 2,1.55228475 2,1 C2,0.44771525 2.44771525,0 3,0 C3.55228475,0 4,0.44771525 4,1 C4,1.55228475 3.55228475,2 3,2 Z M3,6 C2.44771525,6 2,5.55228475 2,5 C2,4.44771525 2.44771525,4 3,4 C3.55228475,4 4,4.44771525 4,5 C4,5.55228475 3.55228475,6 3,6 Z M3,10 C2.44771525,10 2,9.55228475 2,9 C2,8.44771525 2.44771525,8 3,8 C3.55228475,8 4,8.44771525 4,9 C4,9.55228475 3.55228475,10 3,10 Z M7,2 C6.44771525,2 6,1.55228475 6,1 C6,0.44771525 6.44771525,0 7,0 C7.55228475,0 8,0.44771525 8,1 C8,1.55228475 7.55228475,2 7,2 Z M7,6 C6.44771525,6 6,5.55228475 6,5 C6,4.44771525 6.44771525,4 7,4 C7.55228475,4 8,4.44771525 8,5 C8,5.55228475 7.55228475,6 7,6 Z M7,10 C6.44771525,10 6,9.55228475 6,9 C6,8.44771525 6.44771525,8 7,8 C7.55228475,8 8,8.44771525 8,9 C8,9.55228475 7.55228475,10 7,10 Z"></path>
+                                 </svg>
+                              </div>
+                           </div>
+                        </div>
+                        <div role="button" tabindex="0" style="user-select: none; transition: background 20ms ease-in 0s; cursor: -webkit-grab; display: flex; align-items: center; justify-content: center; fill: rgba(55, 53, 47, 0.3); position: absolute; top: 3px; left: -44px; width: 24px; height: 24px; border-radius: 3px; pointer-events: auto;">
+                           <svg viewBox="0 0 16 16" class="plus" style="width: 16px; height: 100%; display: block; fill: inherit; flex-shrink: 0; backface-visibility: hidden;">
+                              <path d="M7.977 14.963c.407 0 .747-.324.747-.723V8.72h5.362c.399 0 .74-.34.74-.747a.746.746 0 00-.74-.738H8.724V1.706c0-.398-.34-.722-.747-.722a.732.732 0 00-.739.722v5.529h-5.37a.746.746 0 00-.74.738c0 .407.341.747.74.747h5.37v5.52c0 .399.332.723.739.723z"></path>
+                           </svg>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="notion-help-button" role="button" tabindex="0" style="user-select: none; transition: opacity 700ms ease 0s, color 700ms ease 0s; cursor: pointer; opacity: 1; position: absolute; display: flex; align-items: center; justify-content: center; background: white; bottom: 16px; right: 16px; width: 36px; height: 36px; border-radius: 100%; font-size: 20px; box-shadow: rgba(15, 15, 15, 0.1) 0px 0px 0px 1px, rgba(15, 15, 15, 0.1) 0px 2px 4px; z-index: 101;">?</div>
+            </div>
+            <div class="notion-overlay-container notion-default-overlay-container" style="position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; z-index: 999; pointer-events: none; overflow: hidden;">
+               <div style="position: relative; z-index: 0;"></div>
+            </div>
+            <div class="notion-overlay-container" style="position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; z-index: 1001; pointer-events: none; overflow: hidden;">
+               <div style="position: relative; z-index: 0;"></div>
+            </div>
+         </div>
+      </div>
+      <script src="renderer.js"></script>
+   </body>
 </html>
