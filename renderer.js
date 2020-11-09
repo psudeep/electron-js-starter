@@ -12,3 +12,10 @@ window.addEventListener('online', alertOnlineStatus)
 window.addEventListener('offline', alertOnlineStatus)
 
 alertOnlineStatus()
+
+// const updateOnlineStatus = () => { ipcRenderer.send('online-status-changed', navigator.onLine ? 'online' : 'offline') }
+
+// window.addEventListener('online', updateOnlineStatus)
+// window.addEventListener('offline', updateOnlineStatus)
+
+// updateOnlineStatus()
